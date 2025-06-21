@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
-from users.models import User
-from catalogue.models import Product
+from authentication.models import User
+from product.models import Product
 
 class Review(models.Model):
     review_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
