@@ -13,7 +13,7 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart_item_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)  # Assuming you have a Product model
+    product = models.ForeignKey('product.Product', on_delete=models.CASCADE)  
     quantity = models.PositiveIntegerField(default=1)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
