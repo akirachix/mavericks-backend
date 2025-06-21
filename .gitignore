@@ -4,3 +4,12 @@ __pycache__/
 db.sqlite3
 .env
 .venv/
+
+mitumbaesales/authentication/*
+mitumbaesales/notification/*
+mitumbaesales/offer/*
+mitumbaesales/order/*
+mitumbaesales/payments/*
+mitumbaesales/product/*
+mitumbaesales/reviews/*
+
