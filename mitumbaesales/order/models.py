@@ -9,7 +9,7 @@ STATUS_CHOICES = [
     ('pending', 'processed'),
     ('cancelled', 'delivered'),
 ]
-user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+# user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
 class Order(models.Model):
     order_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)

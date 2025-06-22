@@ -1,12 +1,5 @@
 from django.db import models
-from django.utils import timezone
-from django.contrib.auth.models import User
-#from product.models import Product
 import uuid
-
-# Create your models here.
-
-
 
 class Offer(models.Model):
     offer_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
@@ -31,7 +24,6 @@ class Offer(models.Model):
         ordering = ['-created_at']
 
 class Discount(models.Model):
-  
     discount_id = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=255)
     discount_type = models.CharField(max_length=50, choices=[
@@ -52,14 +44,10 @@ class Discount(models.Model):
         verbose_name_plural = "Discounts"
         ordering = ['-created_at']
 
-
-
-
-
+class OfferDiscount(models.Model):
     offer_discount_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-  
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='offer_discounts')
-    discount = models.ForeignKey('self', on_delete=models.CASCADE, related_name='offer_discounts')
+    discount = models.ForeignKey(Discount, on_delete=models.CASCADE, related_name='offer_discounts')
 
     def __str__(self):
         return f"Offer '{self.offer.name}' linked to Discount '{self.discount.name}'"
@@ -72,11 +60,12 @@ class Discount(models.Model):
 
 
 
-#class OfferProduct(models.Model):
-    #offer_product_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+
+
+class OfferProduct(models.Model):
+    offer_product_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='offer_products')
-   
-   # product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='offer_products')
+    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, related_name='offer_products')
 
     def __str__(self):
         return f"Offer '{self.offer.name}' includes Product '{self.product.name}'"
