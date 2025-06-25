@@ -11,4 +11,8 @@ router.register(r'offerdiscount', OfferDiscountViewSet, basename='offerdiscount'
 router.register(r'offerproduct', OfferProductViewSet, basename='offerproduct')
 router.register(r'notification', NotificationViewSet, basename='notification')
 
-urlpatterns = router.urls
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include('offer.urls')),   # All endpoints will be directly under /api/
+]
