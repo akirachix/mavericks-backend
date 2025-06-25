@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from payment.models import Payment, PaymentTransfer
+from payments.models import Payment, PaymentTransfer
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
