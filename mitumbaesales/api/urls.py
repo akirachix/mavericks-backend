@@ -14,5 +14,4 @@ router.register(r'notification', NotificationViewSet, basename='notification')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('offer.urls')),   # All endpoints will be directly under /api/
-]
+    path('api/', include('offer.urls')),   ]
