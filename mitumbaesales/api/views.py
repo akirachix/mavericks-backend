@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets
-from payment.models import Payment
+from payments.models import Payment
 from .serializers import PaymentSerializer, PaymentTransferSerializer
 
 class PaymentViewSet(viewsets.ModelViewSet):
