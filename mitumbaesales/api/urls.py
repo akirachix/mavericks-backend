@@ -1,17 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    OfferViewSet, DiscountViewSet, OfferDiscountViewSet, OfferProductViewSet, NotificationViewSet
-)
+from .views import NotificationViewSet
+
+from rest_framework.routers import DefaultRouter
+from .views import (OfferViewSet, DiscountViewSet)
+from .views import NotificationViewSet
 
 router = DefaultRouter()
-router.register(r'offer', OfferViewSet, basename='offer')
-router.register(r'discount', DiscountViewSet, basename='discount')
-router.register(r'offerdiscount', OfferDiscountViewSet, basename='offerdiscount')
-router.register(r'offerproduct', OfferProductViewSet, basename='offerproduct')
-router.register(r'notification', NotificationViewSet, basename='notification')
+router.register(r'offers', OfferViewSet, basename='offer')
+router.register(r'discounts', DiscountViewSet, basename='discount')
+router.register(r'notifications', NotificationViewSet, basename='notification')
 
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('offer.urls')),   ]
+urlpatterns = router.urls
