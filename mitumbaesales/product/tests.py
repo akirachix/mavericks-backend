@@ -19,7 +19,7 @@ class ProductAPITests(APITestCase):
         self.user = User.objects.create(
             name="Seller",
             email="seller@example.com",
-            phone="1112223333",
+            phone="+25478223333",
             password="password",
             user_type="Seller"
         )
@@ -65,7 +65,7 @@ class ProductAPITests(APITestCase):
             category="High-Quality",
             audience="Women",
             name="Blue Shirt",
-            price="29.99",
+            price="400.00",
             stock_quantity=10,
             description="A stylish blue shirt.",
             size="M",
@@ -83,7 +83,7 @@ class ProductAPITests(APITestCase):
             category="High-Quality",
             audience="Women",
             name="Blue Shirt",
-            price="29.99",
+            price="400.00",
             stock_quantity=10,
             description="A stylish blue shirt.",
             size="M",
