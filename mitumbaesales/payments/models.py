@@ -41,7 +41,7 @@ class PaymentTransfer(models.Model):
     seller = models.ForeignKey(User, related_name='seller_transfers', on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, )
     platform_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     transfer_method = models.CharField(max_length=30, default='M-Pesa')
     transfer_status = models.CharField(max_length=30, choices=TRANSFER_STATUS_CHOICES, default='Pending')
