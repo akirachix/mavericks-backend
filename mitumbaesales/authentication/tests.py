@@ -6,8 +6,8 @@ from authentication.models import User
 class UserAPITests(APITestCase):
     def setUp(self):
         self.user_data = {
-            "name": "Test User",
-            "email": "testuser@example.com",
+            "name": "Jerry",
+            "email": "jerry@email.com",
             "phone": "+251704567890",
             "password": "password123",
             "user_type": "Buyer",
@@ -17,8 +17,8 @@ class UserAPITests(APITestCase):
     def test_create_user(self):
         url = reverse('user-list') 
         data = {
-            "name": "New User",
-            "email": "newuser@example.com",
+            "name": "Abel",
+            "email": "abel@gmail.com",
             "phone": "0987654321",
             "password": "password456",
             "user_type": "Seller",

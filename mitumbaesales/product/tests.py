@@ -17,8 +17,8 @@ def get_temporary_image():
 class ProductAPITests(APITestCase):
     def setUp(self):
         self.user = User.objects.create(
-            name="Seller",
-            email="seller@example.com",
+            name="Muthoni",
+            email="muthoni@gmail.com",
             phone="+25478223333",
             password="password",
             user_type="Seller"
@@ -28,7 +28,7 @@ class ProductAPITests(APITestCase):
             "category": "High-Quality",
             "audience": "Women",
             "name": "Blue Shirt",
-            "price": "29.99",
+            "price": "400.00",
             "stock_quantity": 10,
             "description": "A stylish blue shirt.",
             "size": "M",
@@ -48,7 +48,7 @@ class ProductAPITests(APITestCase):
             category="High-Quality",
             audience="Women",
             name="Blue Shirt",
-            price="29.99",
+            price="400.00",
             stock_quantity=10,
             description="A stylish blue shirt.",
             size="M",
