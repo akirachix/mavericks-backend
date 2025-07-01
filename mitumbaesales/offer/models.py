@@ -62,15 +62,15 @@ class OfferDiscount(models.Model):
 
 
 
-class OfferProduct(models.Model):
-    offer_product_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='offer_products')
-    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, related_name='offer_products')
+# class OfferProduct(models.Model):
+#     offer_product_id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+#     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='offer_products')
+#     product = models.ForeignKey('product.Product', on_delete=models.CASCADE, related_name='offer_products')
 
-    def __str__(self):
-        return f"Offer '{self.offer.name}' includes Product '{self.product.name}'"
+#     def __str__(self):
+#         return f"Offer '{self.offer.name}' includes Product '{self.product.name}'"
 
-    class Meta:
-        verbose_name_plural = "Offer Products"
-        unique_together = (('offer', 'product'),) 
-        ordering = ['offer']
+#     class Meta:
+#         verbose_name_plural = "Offer Products"
+#         unique_together = (('offer', 'product'),) 
+#         ordering = ['offer']
