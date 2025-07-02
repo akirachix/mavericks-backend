@@ -5,5 +5,3 @@ urlpatterns = [
     path('orders/', OrderListCreateAPIView.as_view(), name='order-list-create'),
     path('order-items/', OrderItemListCreateAPIView.as_view(), name='orderitem-list-create'),
 ]
-
-
