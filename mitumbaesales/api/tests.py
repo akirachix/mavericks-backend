@@ -1,3 +1,4 @@
+
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -92,3 +93,4 @@ class DiscountAPITest(APITestCase):
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Discount.objects.count(), 0)
+
