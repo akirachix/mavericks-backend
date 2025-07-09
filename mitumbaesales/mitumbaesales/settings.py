@@ -43,8 +43,13 @@ INSTALLED_APPS = [
     'authentication',
     'product',
     'offer',
+
     'payments',
     'reviews',
+
+    'payments',
+    'reviews',
+
     'rest_framework',
 ]
 
