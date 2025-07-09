@@ -92,3 +92,4 @@ class DiscountAPITest(APITestCase):
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Discount.objects.count(), 0)
+
