@@ -1,5 +1,4 @@
 from rest_framework import serializers
-<<<<<<< HEAD
 from payments.models import Payment, PaymentTransfer
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -11,11 +10,4 @@ class PaymentSerializer(serializers.ModelSerializer):
 class PaymentTransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentTransfer
-=======
-from payments.models import Payment
-
-class paymentsSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Payment
->>>>>>> feature/boilerplate
         fields = '__all__'
