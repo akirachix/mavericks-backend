@@ -6,6 +6,7 @@ from .serializers import ProductSerializer, UserSerializer
 from orders.models import Order, OrderItem
 from .serializers import OrderSerializer, OrderItemSerializer
 
+
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -24,6 +25,4 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-
-    
 
