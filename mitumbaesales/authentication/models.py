@@ -29,3 +29,5 @@ class User(models.Model):
                 name='email_or_phone_check'
             ),
         ]
+    def __str__(self):
+        return self.name

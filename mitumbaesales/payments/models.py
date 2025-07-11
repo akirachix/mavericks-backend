@@ -1,10 +1,14 @@
 from django.db import models
-
-
-# Create your models here.
 import uuid
 from authentication.models import User
+<<<<<<< HEAD
 from orders.models import Order
+=======
+from order.models import Order
+
+# Create your models here.
+
+>>>>>>> 43336c22a839c4a7d795b6237da2a3de789c8f3b
 class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = [
         ('M-Pesa', 'M-Pesa'),

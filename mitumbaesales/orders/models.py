@@ -8,8 +8,9 @@ from product.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 STATUS_CHOICES = [
-    ('pending', 'processed'),
-    ('cancelled', 'delivered'),
+    ('pending', 'Pending'),
+    ('processed', 'Processed'),
+    ('cancelled', 'Cancelled'),
 ]
 
 class Order(models.Model):

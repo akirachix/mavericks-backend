@@ -5,6 +5,7 @@ db.sqlite3
 .env
 .venv/
 
+
 mitumbaesales/authentication/*
 mitumbaesales/notification/*
 mitumbaesales/offer/*
@@ -14,3 +15,5 @@ mitumbaesales/product/*
 mitumbaesales/reviews/*
 mitumbaesales/cart/*
 
+
+*.log
