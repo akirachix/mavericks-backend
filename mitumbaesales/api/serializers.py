@@ -16,6 +16,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 
+from .models import Offer, Discount
 from .models import Product, User
 from product.models import Product
 from authentication.models import User
@@ -31,5 +32,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-        
+ 
+   
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = '__all__'
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
 
+        
