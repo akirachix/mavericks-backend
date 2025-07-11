@@ -1,11 +1,9 @@
 from django.db import models
-
-
-# Create your models here.
 import uuid
 from authentication.models import User
 from order.models import Order
-class Payment(models.Model):
+# Create your models here.
+class Payments(models.Model):
     PAYMENT_METHOD_CHOICES = [
         ('M-Pesa', 'M-Pesa'),
     ]
@@ -25,11 +23,6 @@ class Payment(models.Model):
     paid_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Payment {self.payment_id} - {self.payment_status}"
-
-
 class PaymentTransfer(models.Model):
     TRANSFER_STATUS_CHOICES = [
         ('Pending', 'Pending'),
@@ -41,14 +34,30 @@ class PaymentTransfer(models.Model):
     seller = models.ForeignKey(User, related_name='seller_transfers', on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2, )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     platform_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     transfer_method = models.CharField(max_length=30, default='M-Pesa')
     transfer_status = models.CharField(max_length=30, choices=TRANSFER_STATUS_CHOICES, default='Pending')
     transferred_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+class TransactionHistory(models.Model):
+    TRANSACTION_TYPE_CHOICES = [
+        ('Payments', 'Payments'),
+        ('Transfer', 'Transfer'),
+    ]
+    transaction_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    transaction_type = models.CharField(max_length=30, choices=TRANSACTION_TYPE_CHOICES)
+    related_payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True, blank=True)
+    transaction_status = models.CharField(max_length=30, choices=Payment.PAYMENT_STATUS_CHOICES, null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    platform_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    description = models.TextField(blank=True, null=True)
+    processed_at = models.DateTimeField(auto_now_add=True)
 
 
-    def __str__(self):
-        return f"Transfer {self.transfer_id} - {self.transfer_status}"
+
+
+
+
