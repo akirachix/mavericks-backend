@@ -1,7 +1,18 @@
 from rest_framework import serializers
+from orders.models import Order, OrderItem
 from .models import Product, User
 from product.models import Product
 from authentication.models import User
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,6 +23,5 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
 
         
