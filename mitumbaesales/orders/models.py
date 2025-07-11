@@ -15,7 +15,7 @@ STATUS_CHOICES = [
 
 class Order(models.Model):
     
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
    
     status = models.CharField(max_length=20, default='Pending', choices=STATUS_CHOICES)
     total_price = models.DecimalField(max_digits=10, decimal_places=2 , validators=[MinValueValidator(0.01),MaxValueValidator(1000000)], 

@@ -1,23 +1,13 @@
 from django.db import models
-
-# Create your models here.
-
+from rest_framework import serializers
 from authentication.models import User  
 from product.models import Product 
-from offer.models import Offer,Discount
+from orders.models import Order, OrderItem
+from payments.models import Payment
+from offer.models import Offer
+from offer.models import Discount
+# Create your models here.
 
-
-
-from rest_framework import serializers
-
-class OfferSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Offer
-        fields = '__all__'
-class DiscountSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Discount
-        fields = '__all__'
 
         
 
