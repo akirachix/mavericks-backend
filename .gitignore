@@ -14,6 +14,7 @@ mitumbaesales/payments/*
 mitumbaesales/product/*
 mitumbaesales/reviews/*
 mitumbaesales/cart/*
+mitumbaesales/api/*
 
 
 *.log
