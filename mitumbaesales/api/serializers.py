@@ -1,13 +1,16 @@
 from rest_framework import serializers
-from payments.models import Payment
-from .models import Product, User
-from product.models import Product
-from authentication.models import User
+from authentication.models import User  
+from product.models import Product 
 from orders.models import Order, OrderItem
-from .models import Offer, Discount
+from payments.models import Payment
+from offer.models import Offer, Discount
+from reviews.models import Review, RateTrader
+from cart.models import Cart, CartItem
 
 
-class paymentsSerializers(serializers.ModelSerializer):
+
+
+class PaymentsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
@@ -38,6 +41,26 @@ class ProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = '__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+class RateTraderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RateTrader
+        fields = '__all__'
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
         fields = '__all__'
 
 
