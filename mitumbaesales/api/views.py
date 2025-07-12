@@ -1,19 +1,31 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from payments.models import Payment
-from .serializers import paymentsSerializers
-from .models import Product, User
-from product.models import Product
-from authentication.models import User
-from .serializers import ProductSerializer, UserSerializer
+from authentication.models import User  
+from product.models import Product 
 from orders.models import Order, OrderItem
-from .serializers import OrderSerializer, OrderItemSerializer
-from .models import Offer, Discount
-from .serializers import OfferSerializer, DiscountSerializer
+from payments.models import Payment
+from offer.models import Offer, Discount
+from reviews.models import Review, RateTrader
+from cart.models import Cart, CartItem
+from notifications.models import Notification
+from .serializers import (
+    PaymentsSerializers,
+    OfferSerializer,
+    DiscountSerializer,
+    OrderSerializer,
+    OrderItemSerializer,
+    ProductSerializer,
+    UserSerializer,
+    ReviewSerializer,
+    RateTraderSerializer,
+    CartSerializer,
+    CartItemSerializer
+   
+)
 
 # Create your views here.
 
-class paymentsViewset(viewsets.ModelViewSet):
+class PaymentsViewset(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = paymentsSerializers
 
@@ -42,6 +54,22 @@ class OfferViewSet(viewsets.ModelViewSet):
 class DiscountViewSet(viewsets.ModelViewSet):
     queryset = Discount.objects.all()
     serializer_class = DiscountSerializer
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+class RateTraderViewSet(viewsets.ModelViewSet):
+    queryset = RateTrader.objects.all()
+    serializer_class = RateTraderSerializer
+
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
 
 
 
