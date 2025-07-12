@@ -1,3 +1,8 @@
+from django.shortcuts import render
+
+
+from django.shortcuts import render
+
 from rest_framework import viewsets
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
@@ -8,4 +13,7 @@ class CartViewSet(viewsets.ModelViewSet):
 
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
+
+
+
+    

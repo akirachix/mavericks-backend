@@ -1,13 +1,31 @@
+from django.urls import path,include
+from rest_framework.routers import DefaultRouter
+from.views import paymentsViewset
+from .views import OrderViewSet
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import ProductViewSet, UserViewSet
+from .views import OfferViewSet, DiscountViewSet
+
 
 router = DefaultRouter()
+router.register(r'Payments', paymentsViewset, basename='Payments')
 router.register(r'products', ProductViewSet, basename='product')
 router.register(r'users', UserViewSet, basename='user')
+router.register(r'orders', OrderViewSet, basename='orders')
+router.register(r'payments', OrderViewSet, basename='payments')
+router.register(r'offers', OfferViewSet, basename='offers')
+router.register(r'discounts', DiscountViewSet, basename='discounts')
 
-urlpatterns = [
-    path('', include(router.urls)),
+
+urlpatterns=[
+    path("", include(router.urls)),
 ]
+
+
+
+
+
+
 
 

@@ -1,7 +1,34 @@
 from rest_framework import serializers
+from payments.models import Payment
 from .models import Product, User
 from product.models import Product
 from authentication.models import User
+from orders.models import Order, OrderItem
+from .models import Offer, Discount
+
+
+class paymentsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = '__all__'
+
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +41,4 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-        
+
