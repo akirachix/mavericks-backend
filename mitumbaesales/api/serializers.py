@@ -2,7 +2,7 @@ from rest_framework import serializers
 from authentication.models import User  
 from product.models import Product 
 from orders.models import Order, OrderItem
-from payments.models import Payment
+from payments.models import Payment, DarajaAPI
 from offer.models import Offer, Discount
 from reviews.models import Review, RateTrader
 from cart.models import Cart, CartItem
@@ -62,6 +62,12 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = '__all__'
+
+class STKPushSerializer(serializers.Serializer):
+   phone_number = serializers.CharField()
+   amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+   account_reference = serializers.CharField()
+   transaction_desc = serializers.CharField()
 
 
 
