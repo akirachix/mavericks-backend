@@ -131,3 +131,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Daraja API settings
+DARAJA_CONSUMER_KEY = 'B0YeyWkEgX8ANlQotHm13N1GAJSFtAfWH5iOd7YHyFJg4ARa'
+DARAJA_CONSUMER_SECRET = 'bhJWR03bmjX7oASwe5fL0hqzmbMRvtZMAvCACYVK2DdiTBV6LskuiBZvYnZMHtxp'
+DARAJA_SHORTCODE = '174379'
+DARAJA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+DARAJA_CALLBACK_URL = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'

@@ -12,11 +12,13 @@ from .views import (
     RateTraderViewSet,  
     CartViewSet,  
     CartItemViewSet,
+    STKPushView,
+    daraja_callback,
 )
 
 
 router = DefaultRouter()
-router.register(r'Payments', paymentsViewset, basename='Payments')
+router.register(r'Payments', PaymentsViewset, basename='Payments')
 router.register(r'products', ProductViewSet, basename='product')
 router.register(r'users', UserViewSet, basename='user')
 router.register(r'orders', OrderViewSet, basename='orders')
@@ -32,7 +34,18 @@ router.register(r'cart_items', CartItemViewSet, basename='cart_items')
 
 urlpatterns=[
     path('', include(router.urls)),
+    path('daraja/stk-push/', STKPushView.as_view(), name='daraja-stk-push'),
+    path('daraja/callback/', daraja_callback, name='daraja-callback'), 
 ]
+
+
+
+
+
+
+
+
+
 
 
 

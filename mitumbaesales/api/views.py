@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
 from authentication.models import User  
 from product.models import Product 
 from orders.models import Order, OrderItem
-from payments.models import Payment
+from payments.models import Payment, DarajaAPI
 from offer.models import Offer, Discount
 from reviews.models import Review, RateTrader
 from cart.models import Cart, CartItem
-from notifications.models import Notification
+from notification.models import Notification
 from .serializers import (
     PaymentsSerializers,
     OfferSerializer,
@@ -19,15 +23,16 @@ from .serializers import (
     ReviewSerializer,
     RateTraderSerializer,
     CartSerializer,
-    CartItemSerializer
-   
+    CartItemSerializer,
+    STKPushSerializer
 )
+
 
 # Create your views here.
 
 class PaymentsViewset(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
-    serializer_class = paymentsSerializers
+    serializer_class = PaymentsSerializers
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -70,6 +75,31 @@ class CartViewSet(viewsets.ModelViewSet):
 class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
+
+
+class STKPushView(APIView):
+   def post(self, request):
+       serializer = STKPushSerializer(data=request.data)
+       if serializer.is_valid():
+           data = serializer.validated_data
+           daraja = DarajaAPI()
+           response = daraja.stk_push(
+               phone_number=data['phone_number'],
+               amount=data['amount'],
+               account_reference=data['account_reference'],
+               transaction_desc=data['transaction_desc']
+           )
+           return Response(response)
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+@api_view(['POST'])
+def daraja_callback(request):
+    print("Daraja Callback Data:", request.data)
+    return Response({"ResultCode": 0, "ResultDesc": "Accepted"})
+
 
 
 
