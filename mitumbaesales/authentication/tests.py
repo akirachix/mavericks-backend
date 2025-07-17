@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from authentication.models import User
 
+
+
 class UserAPITests(APITestCase):
     def setUp(self):
         self.user_data = {
@@ -44,3 +46,4 @@ class UserAPITests(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(User.objects.filter(pk=self.user.pk).exists())
+

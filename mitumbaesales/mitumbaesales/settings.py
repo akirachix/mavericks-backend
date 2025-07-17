@@ -23,9 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-av9swa*vt(ke+v%u+!o8hoyoq#l!&i_l94ey763#*a5h4104x3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -39,13 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'notification',
     'cart',    
-    'order',
     'authentication',
     'product',
     'offer',
     'payments',
     'reviews',
+    'orders',
     'rest_framework',
+    'api',
+
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Daraja API settings
+DARAJA_CONSUMER_KEY = 'B0YeyWkEgX8ANlQotHm13N1GAJSFtAfWH5iOd7YHyFJg4ARa'
+DARAJA_CONSUMER_SECRET = 'bhJWR03bmjX7oASwe5fL0hqzmbMRvtZMAvCACYVK2DdiTBV6LskuiBZvYnZMHtxp'
+DARAJA_SHORTCODE = '174379'
+DARAJA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+DARAJA_CALLBACK_URL = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'

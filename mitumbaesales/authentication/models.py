@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import uuid 
 
-# Create your models here.
+
 class User(models.Model):
     USER_TYPE_CHOICES = [
         ('Buyer', 'Buyer'),
