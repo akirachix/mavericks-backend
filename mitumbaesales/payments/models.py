@@ -2,9 +2,9 @@ from django.db import models
 import uuid
 from authentication.models import User
 from orders.models import Order
-import requests
+# import requests
 from django.conf import settings
-from requests.auth import HTTPBasicAuth
+# from requests.auth import HTTPBasicAuth
 import base64
 import datetime
 
