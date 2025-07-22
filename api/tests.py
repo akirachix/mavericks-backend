@@ -1,12 +1,13 @@
 from django.test import TestCase
-
-# Create your tests here.
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
 from .models import Offer, Discount
 import datetime
 import uuid
+
+# Create your tests here.
+
 class OfferAPITest(APITestCase):
     def setUp(self):
         self.offer_data = {

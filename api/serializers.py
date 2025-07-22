@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from product.models import Product
-from orders.models import Order, OrderItem
+from orders.models import Order
 from offer.models import Offer, Discount
 from reviews.models import Review, RateTrader
 from cart.models import Cart, CartItem
@@ -9,59 +9,51 @@ from authentication.models import AppUser
 from django.contrib.auth.models import User as AuthUser
 from .models import AppUser
 
+from rest_framework import serializers
+from .models import Order
+from authentication.models import AppUser
+from cart.models import CartItem
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
-    product_name = serializers.CharField(source='product.name', read_only=True)
-    product_price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
-    product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source='product', write_only=True
-    )
 
+class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OrderItem
-        fields = ['id', 'product_id', 'product_name', 'product_price', 'quantity', 'unit_price', 'subtotal', 'added_at']
-        read_only_fields = ['subtotal', 'added_at', 'product_name', 'product_price']
+        model = CartItem
+        fields = '__all__'
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    buyer = serializers.PrimaryKeyRelatedField(read_only=True)
-    order_items = OrderItemSerializer(many=True, write_only=True, required=False)
-    display_order_items = OrderItemSerializer(source='order_items', many=True, read_only=True)
+class OrderCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = [
-            'id', 'buyer', 'status', 'total_price', 'created_at', 'updated_at',
-            'order_items',         
-            'display_order_items'   
-        ]
-        read_only_fields = ['total_price', 'created_at', 'updated_at']
+        fields = ['product', 'quantity', 'status'] 
 
-
+    def validate_quantity(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Quantity must be a positive integer.")
+        return value
 
     def create(self, validated_data):
-        order_items_data = validated_data.pop('order_items', [])
-        initial_total_price = validated_data.pop('total_price', None) 
-        order = super().create(validated_data)
-
-        total_price_calculated = 0
-        for item_data in order_items_data:
-            try:
-                product = Product.objects.get(id=item_data['product'].id if isinstance(item_data['product'], Product) else item_data['product'])
-            except Product.DoesNotExist:
-                raise serializers.ValidationError(
-                    f"Product with ID {item_data['product']} not found for OrderItem."
-                )
-
-            order_item = OrderItem.objects.create(order=order, product=product,
-                                                  quantity=item_data['quantity'],
-                                                  unit_price=item_data['unit_price'])
-            total_price_calculated += order_item.subtotal
-
-        order.total_price = total_price_calculated
-        order.save()
-
+        order = Order.objects.create(**validated_data)
         return order
+
+    def update(self, instance, validated_data):
+        instance.product = validated_data.get('product', instance.product)
+        instance.quantity = validated_data.get('quantity', instance.quantity)
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
+        return instance
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'  
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        app_user = AppUser.objects.get(user=user)  
+        validated_data['buyer'] = app_user
+        return super().create(validated_data)
+
 
 
 class AuthUserSerializer(serializers.ModelSerializer):
@@ -90,7 +82,7 @@ class AppUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AppUser
-        fields = ['user', 'name', 'email', 'phone', 'user_type']
+        fields = ['user', 'name', 'phone', 'user_type']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -135,7 +127,3 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = '__all__'
 
-class CartItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CartItem
-        fields = '__all__'

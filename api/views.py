@@ -3,14 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from product.models import Product 
-from orders.models import Order, OrderItem
+from orders.models import Order
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from offer.models import Offer, Discount
 from reviews.models import Review, RateTrader
 from cart.models import Cart, CartItem
 from authentication.models import AppUser
-from .serializers import AppUserSerializer
 from rest_framework.authtoken.views import obtain_auth_token
 from django.conf import settings 
 from rest_framework.exceptions import ValidationError 
@@ -20,7 +19,10 @@ from django.contrib.auth.models import User as AuthUser
 from django.contrib.auth import authenticate, login, logout 
 from .serializers import AppUserSerializer as AppUserRegistrationSerializer 
 from rest_framework.authtoken.models import Token
-
+from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+from .serializers import OrderSerializer, OrderCreateUpdateSerializer
+from rest_framework.permissions import IsAuthenticated
 import requests
 from api.permissions import IsSellerOrReadOnly, IsOwnerOrAdmin
 import base64
@@ -30,7 +32,6 @@ from .serializers import (
     OfferSerializer,
     DiscountSerializer,
     OrderSerializer,
-    OrderItemSerializer,
     ProductSerializer,
     ReviewSerializer,
     RateTraderSerializer,
@@ -38,6 +39,7 @@ from .serializers import (
     CartItemSerializer,
     AppUserSerializer,
 )
+
 
 class AppUserViewSet(viewsets.ModelViewSet):
     queryset = AppUser.objects.all()
@@ -94,74 +96,58 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-
-class OrderItemListView(generics.ListCreateAPIView):
-    serializer_class = OrderItemSerializer
-    permission_classes = [permissions.IsAuthenticated] 
-
-
-    def get_queryset(self):
-        order_pk = self.kwargs['order_pk']
-        order = get_object_or_404(Order, pk=order_pk)
-        if not self.request.user.is_staff and order.buyer != self.request.user.appuser:
-            raise PermissionDenied("You do not have permission to access items for this order.")
-        
-        return OrderItem.objects.filter(order=order)
-
-
-    def perform_create(self, serializer):
-        order_pk = self.kwargs['order_pk']
-        order = get_object_or_404(Order, pk=order_pk)
-
-
-        if not self.request.user.is_staff and order.buyer != self.request.user.appuser:
-            raise PermissionDenied("You do not have permission to add items to this order.")
-
-        serializer.save(order=order)
-
-
-
-class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = OrderItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    def get_queryset(self):
-        order_pk = self.kwargs['order_pk']
-        order = get_object_or_404(Order, pk=order_pk)
-
-
-        if not self.request.user.is_staff and order.buyer != self.request.user.appuser:
-            raise PermissionDenied("You do not have permission to access items for this order.")
-        
-        return OrderItem.objects.filter(order=order)
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, pk=self.kwargs['pk'])
-        self.check_object_permissions(self.request, obj) 
-        return obj
-
 class OrderViewSet(viewsets.ModelViewSet):
-    serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    queryset = Order.objects.all()  
+    serializer_class = OrderSerializer 
+    permission_classes = [IsAuthenticated]  
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            try:
-                app_user = AppUser.objects.get(user=self.request.user)
-                return Order.objects.filter(buyer=app_user).order_by('-created_at')
-            except AppUser.DoesNotExist:
-                return Order.objects.none()
-        return Order.objects.none() 
+        if self.request.user.is_staff:
+            return Order.objects.all().order_by('-created_at') 
+        return Order.objects.filter(buyer__user=self.request.user).order_by('-created_at')  
 
     def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            try:
-                app_user = AppUser.objects.get(user=self.request.user)
-                serializer.save(buyer=app_user)
-            except AppUser.DoesNotExist:
-                raise ValidationError("Authenticated user has no associated AppUser profile. Cannot create order.")
+        serializer.save() 
+
+class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()  
+    serializer_class = OrderSerializer 
+    permission_classes = [IsAuthenticated]  
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Order.objects.all()  
+        return Order.objects.filter(buyer__user=self.request.user)  
+
+    def perform_update(self, serializer):
+        serializer.save()  
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object() 
+        if instance.status == 'pending':
+            self.perform_destroy(instance)  
+            return Response(status=status.HTTP_204_NO_CONTENT)
         else:
-            raise permissions.NotAuthenticated()
+            return Response({"detail": "Order cannot be cancelled if not in pending status."},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+class OrderStatusUpdateView(generics.UpdateAPIView):
+    queryset = Order.objects.all() 
+    serializer_class = OrderCreateUpdateSerializer  
+    permission_classes = [IsSellerOrReadOnly]  
+
+    def patch(self, request, pk):
+        order = get_object_or_404(Order, pk=pk) 
+        new_status = request.data.get('status') 
+
+        if new_status and new_status in dict(STATUS_CHOICES).keys():
+            order.status = new_status 
+            order.save() 
+            serializer = OrderSerializer(order) 
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"detail": "Invalid status or status not provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('-created_at')
