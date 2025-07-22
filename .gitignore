@@ -17,3 +17,8 @@ mitumbaesales/cart/*
 
 
 *.log
+
+ngrok-stable-linux-amd64.zip
+ngrok
+staticfiles
+
