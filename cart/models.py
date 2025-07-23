@@ -9,7 +9,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
-        return f"Cart {self.cart_id} for {self.buyer}"
+        return f"Cart {self.cart_id}"
 class CartItem(models.Model):
     cart_item_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

@@ -1,9 +1,11 @@
 from django.db import models
 from authentication.models import AppUser 
+import uuid
 
 # Create your models here.
 
 class MpesaSTKPush(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(AppUser, on_delete=models.SET_NULL, null=True, blank=True)
     phone_number = models.CharField(max_length=15)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
