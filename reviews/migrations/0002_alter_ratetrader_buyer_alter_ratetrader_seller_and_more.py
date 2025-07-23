@@ -12,19 +12,45 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='ratetrader',
+            name='buyer',  
+        ),
+        migrations.AddField(
             model_name='ratetrader',
             name='buyer',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='buyer_ratings', to='authentication.appuser'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='buyer_ratings',
+                to='authentication.appuser',
+                null=True, 
+            ),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='ratetrader',
             name='seller',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seller_ratings', to='authentication.appuser'),
         ),
-        migrations.AlterField(
+        migrations.AddField(
+            model_name='ratetrader',
+            name='seller',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='seller_ratings',
+                to='authentication.appuser',
+                null=True,
+            ),
+        ),
+        migrations.RemoveField(
             model_name='review',
             name='buyer',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.appuser'),
+        ),
+        migrations.AddField(
+            model_name='review',
+            name='buyer',
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to='authentication.appuser',
+                null=True,
+            ),
         ),
     ]
