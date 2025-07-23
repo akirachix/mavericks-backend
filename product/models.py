@@ -40,6 +40,7 @@ class Product(models.Model):
         null=True,
         related_name='products' 
     )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.CharField(max_length=30, choices=CATEGORY_CHOICES)
     audience = models.CharField(max_length=10, choices=AUDIENCE_CHOICES, default='Women')
     name = models.CharField(max_length=100)

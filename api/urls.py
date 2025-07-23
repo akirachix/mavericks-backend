@@ -31,7 +31,6 @@ router.register(r'reviews', ReviewViewSet, basename='reviews')
 router.register(r'rate_traders', RateTraderViewSet, basename='rate_traders')
 router.register(r'carts', CartViewSet, basename='carts')
 router.register(r'cart_items', CartItemViewSet, basename='cart_items')
-router.register(r'appusers', AppUserViewSet)
 
 
 urlpatterns=[

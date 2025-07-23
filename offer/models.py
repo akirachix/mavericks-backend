@@ -10,7 +10,7 @@ class Offer(models.Model):
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
     priority = models.IntegerField(default=0)
-    usage_limit = models.IntegerField(default=0)
+    available_stock = models.IntegerField(default=0)
     uses_count = models.IntegerField(default=0)
     applies_to = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -24,7 +24,7 @@ class Offer(models.Model):
         ordering = ['-created_at']
 
 class Discount(models.Model):
-    discount_id = models.CharField(max_length=50, primary_key=True)
+    discount_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     discount_type = models.CharField(max_length=50, choices=[
         ('percentage', 'Percentage'),

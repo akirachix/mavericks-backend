@@ -9,8 +9,8 @@ class AppUser(models.Model):
        ('Seller', 'Seller'),
    ]
 
-   
-   user = models.OneToOneField(AuthUser, on_delete=models.CASCADE, primary_key=True, related_name='appuser_profile') 
+   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+   user = models.OneToOneField(AuthUser, on_delete=models.CASCADE, related_name='appuser_profile') 
    name = models.CharField(max_length=100)
    email = models.EmailField(max_length=100, unique=True, null=True, blank=True) 
    phone = models.CharField(max_length=15, unique=True, null=True, blank=True) 
