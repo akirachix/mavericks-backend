@@ -1,0 +1,1 @@
+web: gunicorn mitumbaesales.wsgi --log-file -
