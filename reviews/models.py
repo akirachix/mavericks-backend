@@ -5,7 +5,7 @@ from product.models import Product
 
 class Review(models.Model):
     review_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
-    buyer = models.ForeignKey(AppUser, on_delete=models.CASCADE, to_field='user_id', db_column='buyer_uuid')
+    buyer = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
@@ -18,10 +18,11 @@ class Review(models.Model):
     def __str__(self):
         return f"Review {self.review_id} by {self.buyer}"
 
+
 class RateTrader(models.Model):
     rate_trader_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
-    buyer = models.ForeignKey(AppUser, related_name='buyer_ratings', on_delete=models.CASCADE, to_field='user_id', db_column='buyer_uuid')
-    seller = models.ForeignKey(AppUser, related_name='seller_ratings', on_delete=models.CASCADE, to_field='user_id', db_column='seller_uuid')
+    buyer = models.ForeignKey(AppUser, related_name='buyer_ratings', on_delete=models.CASCADE)
+    seller = models.ForeignKey(AppUser, related_name='seller_ratings', on_delete=models.CASCADE)
     rating = models.IntegerField(
         choices=[(i, str(i)) for i in range(1, 6)],
         null=False
