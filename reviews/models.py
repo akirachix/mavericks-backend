@@ -18,6 +18,7 @@ class Review(models.Model):
     def __str__(self):
         return f"Review {self.review_id} by {self.buyer}"
 
+
 class RateTrader(models.Model):
     rate_trader_id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     buyer = models.ForeignKey(AppUser, related_name='buyer_ratings', on_delete=models.CASCADE, to_field='user_id', db_column='buyer_uuid')
