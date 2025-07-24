@@ -30,6 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = False
 ALLOWED_HOSTS = ['*']
 
+
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
@@ -84,6 +85,8 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'mitumbaesales.urls'
